@@ -1,0 +1,6 @@
+---
+  # Start the app, stage all the files required
+  - name: Start the app, if running
+    ansible.builtin.import_tasks:
+      file: tag_start.yml
+

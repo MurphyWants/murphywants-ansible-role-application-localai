@@ -1,0 +1,26 @@
+---
+  - name: Create nextcloud ZFS volume
+    community.general.zfs:
+      name: "{{ LOCALAI_STORAGE_ZFS_POOL }}/{{ LOCALAI_STORAGE_ZFS_FS }}"
+      state: present
+      extra_zfs_properties:
+        mountpoint: "{{ LOCALAI_PATH }}"
+
+  - name: Create folders
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    loop:
+      - "{{ LOCALAI_PATH }}"
+      - "{{ LOCALAI_PATH }}/volumes"
+      - "{{ LOCALAI_PATH }}/volumes/localai-models"
+      - "{{ LOCALAI_PATH }}/backups"
+      - "{{ LOCALAI_PATH }}/backups/logs"
+      - "{{ LOCALAI_PATH }}/scripts"
+      - "{{ LOCALAI_PATH }}/docs"
+
+  - name: Copy docker compose file
+    ansible.builtin.template:
+      src: "{{ role_path }}/templates/LOCALAI_docker-compose.yml.j2"
+      dest: "{{ LOCALAI_PATH }}/docs/docker-compose.yml"
+
