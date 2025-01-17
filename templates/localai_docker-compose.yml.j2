@@ -12,6 +12,7 @@ services:
       - DEBUG=false
     volumes:
       - "{{ LOCALAI_PATH }}/volumes/localai-models:/build/models:cached"
+    restart: unless-stopped
     deploy:
       resources:
         reservations:
